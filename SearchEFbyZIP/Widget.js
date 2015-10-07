@@ -18,7 +18,13 @@ function(declare, BaseWidget,EFdownload,_config) {
 
     postCreate: function() {
       this.inherited(arguments);
-      console.log('postCreate');
+      
+      var searchtext = ""
+      if (this.appConfig.zipcode) searchtext = this.appConfig.zipcode;
+      if (searchtext.length == 5) {
+        this.efsearchNode.value = searchtext;
+        this._drawEFxml();
+      }
     },
 
    startup: function() {
@@ -49,7 +55,7 @@ function(declare, BaseWidget,EFdownload,_config) {
         var searchtext = dojo.string.trim(this.efsearchNode.value);
         var zippattern = /^[0-9]{5}$/i;
         if (!(zippattern.test(searchtext))) {
-          alert("You need to input 5-digits ZIP Code. Example: '60085'.");
+          alert("You need to input a 5-digit ZIP Code. Example: '60085'.");
           return false;
         }
         this._showloading();
